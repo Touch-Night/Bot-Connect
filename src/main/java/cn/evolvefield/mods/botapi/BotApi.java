@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.botapi;
 
 import cn.evolvefield.mods.botapi.config.ModConfig;
+import cn.evolvefield.mods.botapi.event.CommandEventHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -10,6 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -29,6 +31,7 @@ public class BotApi {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -44,6 +47,12 @@ public class BotApi {
 
     private void processIMC(final InterModProcessEvent event) {
 
+    }
+
+    @SubscribeEvent
+    public void onServerStarting (FMLServerStartingEvent event) {
+
+        CommandEventHandler.onCommandRegister(event.getCommandDispatcher());
     }
 
     @SubscribeEvent

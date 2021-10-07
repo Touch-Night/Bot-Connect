@@ -23,7 +23,7 @@ public class TickEventHandler {
         String toSend = toSendQueue.poll();
         if (!event.world.isClientSide && toSend != null) {
             ITextComponent textComponents = new StringTextComponent(toSend);
-            event.world.getServer().getPlayerList().broadcastMessage(textComponents, ChatType.CHAT, UUID.randomUUID());
+            event.world.getServer().getPlayerList().broadcastMessage(textComponents, false);
         }
     }
 }

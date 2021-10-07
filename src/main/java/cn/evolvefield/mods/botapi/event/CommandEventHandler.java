@@ -5,15 +5,10 @@ import cn.evolvefield.mods.botapi.command.*;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
 public class CommandEventHandler {
-    @SubscribeEvent
-    public static void onCommandRegister(RegisterCommandsEvent event) {
-        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
+    public static void onCommandRegister(CommandDispatcher<CommandSource> dispatcher) {
+
         dispatcher.register(
                 Commands.literal("mcbot")
                         .requires(commandSource -> commandSource.hasPermission(2))
