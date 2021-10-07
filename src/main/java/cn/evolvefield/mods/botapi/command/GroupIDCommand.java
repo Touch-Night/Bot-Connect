@@ -13,8 +13,8 @@ public class GroupIDCommand  {
 
 
     public static ArgumentBuilder<CommandSource, ?> register() {
-        return Commands.literal("receive")
-                .then(Commands.argument("enabled", BoolArgumentType.bool())
+        return Commands.literal("setID")
+                .then(Commands.argument("QQGroupID", BoolArgumentType.bool())
                         .executes(ReceiveCommand::execute));
     }
     public static int execute(CommandContext<CommandSource> context) throws CommandException {
