@@ -17,7 +17,7 @@ displayURL="https://www.evolvefield.cn/" #optional
 logoFile="BotApi.png" #optional
 authors = "cnlimiter" #optional
 description = '''
-Connect QQ
+Adds chat linking between QQ and Minecraft and QQ commands to request server data.
 '''
 [[dependencies.botapi]] #optional
 modId = "forge" #mandatory
