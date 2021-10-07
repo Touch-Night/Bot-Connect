@@ -22,6 +22,7 @@ public class CommandEventHandler {
                         .then(ReceiveCommand.register())
                         .then(SendCommand.register())
                         .then(StatusCommand.register())
+                        .then(GroupIDCommand.register())
         );
     }
 }
