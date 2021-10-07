@@ -10,6 +10,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,11 +22,11 @@ public class Invoke {
         String commandBody = command.substring(1);
 
         if("tps".equals(commandBody)) {
-            double overTickTime = mean(BotApi.SERVER.getTickTime(World.OVERWORLD)) * 1.0E-6D;
+            double overTickTime = mean(BotApi.SERVER.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
             double overTPS = Math.min(1000.0 / overTickTime, 20);
-            double netherTickTime = mean(BotApi.SERVER.getTickTime(World.NETHER)) * 1.0E-6D;
+            double netherTickTime = mean(BotApi.SERVER.getTickTime(DimensionType.NETHER)) * 1.0E-6D;
             double netherTPS = Math.min(1000.0 / netherTickTime, 20);
-            double endTickTime = mean(BotApi.SERVER.getTickTime(World.END)) * 1.0E-6D;
+            double endTickTime = mean(BotApi.SERVER.getTickTime(DimensionType.THE_END)) * 1.0E-6D;
             double endTPS = Math.min(1000.0 / endTickTime, 20);
 
             String outPut = String.format("主世界 TPS: %.2f", overTPS)
