@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "botapi",
+  "version": "${version}",
+  "name": "Botapi",
+  "description": "Adds chat linking between QQ and Minecraft and QQ commands to request server data.",
+  "authors": [
+    "cnlimiter"
+  ],
+  "contact": {
+    "website": "www.evolvefield.cn"
+  },
+  "license": "GPL-3.0",
+  "icon": "icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "client": [
+    ],
+    "main": [
+      "cn.evolvefield.mods.botapi.Botapi"
+    ]
+  },
+  "mixins": [
+    "botapi.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.16.5"
+  }
+}
