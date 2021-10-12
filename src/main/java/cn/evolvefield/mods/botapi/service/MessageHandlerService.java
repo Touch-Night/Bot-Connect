@@ -31,7 +31,7 @@ public class MessageHandlerService {
         String name;
         long sourceId;
         long groupId;
-        //try{
+
             serverMessage = new MessageJson(msg);
 
 
@@ -44,16 +44,13 @@ public class MessageHandlerService {
                 if(text.startsWith("!")){
                     Invoke.invokeCommand(text);
                 }
-                else if(!text.startsWith("[CQ:")){
+                else if(!text.startsWith("[CQ:") && ModConfig.RECEIVE_ENABLED.get()){
                     String toSend = String.format("§b[§lQQ§r§b]§a<%s>§f %s", name, text);
                     TickEventHandler.getToSendQueue().add(toSend);
                 }
             }
 
-        //} catch (NullPointerException e) {
-            //BotApi.LOGGER.error("接收到非法包", e);
-            //e.printStackTrace();
-        //}
+
 
     }
 }
