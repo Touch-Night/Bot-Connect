@@ -2,22 +2,20 @@ package cn.evolvefield.mods.botapi.service;
 
 import cn.evolvefield.mods.botapi.BotApi;
 import cn.evolvefield.mods.botapi.command.Invoke;
-import cn.evolvefield.mods.botapi.config.ModConfig;
 import cn.evolvefield.mods.botapi.event.TickEventHandler;
 import cn.evolvefield.mods.botapi.message.MessageJson;
 import cn.evolvefield.mods.botapi.message.SendMessage;
-import cn.evolvefield.mods.botapi.util.CoolQ;
 import net.minecraftforge.event.ServerChatEvent;
 
 public class MessageHandlerService {
 
     /**
      * 向已连接的服务端发送消息
-     * @param event 需要处理的事件
+     * @param event 需要处理的聊天事件
      */
     public static void sendMessage(ServerChatEvent event) {
 
-        SendMessage.Group(ModConfig.GROUP_ID.get(),String.format("[MC]<%s> %s", event.getPlayer().getDisplayName().getString(), event.getMessage()));
+        SendMessage.Group(BotApi.config.getCommon().getGroupId(),String.format("[MC]<%s> %s", event.getPlayer().getDisplayName().getString(), event.getMessage()));
         //sendToAll(new TextWebSocketFrame("/send_group_msg?group_id=" + ModConfig.GROUP_ID.get() + "&message=" + event.getMessage()));
     }
 
@@ -31,7 +29,7 @@ public class MessageHandlerService {
         String name;
         long sourceId;
         long groupId;
-
+        if(!msg.isEmpty() ){
             serverMessage = new MessageJson(msg);
 
 
@@ -40,16 +38,16 @@ public class MessageHandlerService {
             sourceId = serverMessage.getUser_id();
             groupId = serverMessage.getGroup_id();
             name = serverMessage.getNickname();
-            if(groupId == ModConfig.GROUP_ID.get()){
-                if(text.startsWith("!")){
+            if( groupId == BotApi.config.getCommon().getGroupId() && BotApi.config.getCommon().isRECEIVE_ENABLED()){
+                if(text.startsWith("!") && BotApi.config.getCommon().isR_COMMAND_ENABLED()){
                     Invoke.invokeCommand(text);
                 }
-                else if(!text.startsWith("[CQ:") && ModConfig.RECEIVE_ENABLED.get()){
+                else if(!text.startsWith("[CQ:") && BotApi.config.getCommon().isR_CHAT_ENABLE()){
                     String toSend = String.format("§b[§lQQ§r§b]§a<%s>§f %s", name, text);
                     TickEventHandler.getToSendQueue().add(toSend);
                 }
-            }
-
+        }
+    }
 
 
     }

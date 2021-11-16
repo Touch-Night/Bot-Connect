@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.botapi;
 
-import cn.evolvefield.mods.botapi.config.ModConfig;
+import cn.evolvefield.mods.botapi.config.BotConfig;
+import com.google.gson.Gson;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -10,11 +11,18 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Mod("botapi")
 public class BotApi {
@@ -22,7 +30,9 @@ public class BotApi {
     public static final String MODID = "botapi";
     public static final Logger LOGGER = LogManager.getLogger();
     public static MinecraftServer SERVER = ServerLifecycleHooks.getCurrentServer();
-
+    private static Gson GSON = new Gson();
+    public static Path CONFIG_FOLDER ;
+    public static BotConfig config ;
 
     public BotApi() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -33,7 +43,8 @@ public class BotApi {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        ModConfig.setup(FMLPaths.CONFIGDIR.get().resolve(MODID + ".toml"));
+        CONFIG_FOLDER = FMLPaths.CONFIGDIR.get();
+        config = new BotConfig();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -51,6 +62,34 @@ public class BotApi {
         SERVER = event.getServer();
     }
 
+    @SubscribeEvent
+    public void init(FMLServerStartingEvent event){
+//加载配置
+
+        if (!CONFIG_FOLDER.toFile().isDirectory()) {
+            try {
+                Files.createDirectories(CONFIG_FOLDER);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Path configPath = CONFIG_FOLDER.resolve(config.getConfigName() + ".json");
+        if (configPath.toFile().isFile()) {
+            try {
+                config = GSON.fromJson(FileUtils.readFileToString(configPath.toFile(), StandardCharsets.UTF_8),
+                        BotConfig.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                FileUtils.write(configPath.toFile(), GSON.toJson(config), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 }

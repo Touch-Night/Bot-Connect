@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.botapi.command;
 
-import cn.evolvefield.mods.botapi.config.ModConfig;
-import com.mojang.brigadier.arguments.BoolArgumentType;
+import cn.evolvefield.mods.botapi.BotApi;
+import cn.evolvefield.mods.botapi.config.ConfigManger;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -16,11 +16,12 @@ public class GroupIDCommand  {
     public static ArgumentBuilder<CommandSource, ?> register() {
         return Commands.literal("setID")
                 .then(Commands.argument("QQGroupID", IntegerArgumentType.integer())
-                        .executes(ReceiveCommand::execute));
+                        .executes(GroupIDCommand::execute));
     }
     public static int execute(CommandContext<CommandSource> context) throws CommandException {
         int id = context.getArgument("QQGroupID",Integer.class);
-        ModConfig.GROUP_ID.set(id);
+        BotApi.config.getCommon().setGroupId(id);
+        ConfigManger.saveBotConfig(BotApi.config);
         context.getSource().sendSuccess(
                 new StringTextComponent("已设置互通的群号为:" + id), true);
         return 0;

@@ -1,7 +1,8 @@
 package cn.evolvefield.mods.botapi.command;
 
 
-import cn.evolvefield.mods.botapi.config.ModConfig;
+import cn.evolvefield.mods.botapi.BotApi;
+import cn.evolvefield.mods.botapi.config.ConfigManger;
 import cn.evolvefield.mods.botapi.service.ClientThreadService;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -21,7 +22,8 @@ public class DisconnectCommand {
         } else {
             context.getSource().sendSuccess(new StringTextComponent("目前未连接"), true);
         }
-        ModConfig.IS_ENABLED.set(false);
+        BotApi.config.getCommon().setENABLED(false);
+        ConfigManger.saveBotConfig(BotApi.config);
         return 0;
     }
 }
