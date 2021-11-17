@@ -25,28 +25,29 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        //握手协议返回，设置结束握手
-        if (!this.handshaker.isHandshakeComplete()) {
-            try {
-                FullHttpResponse response = (FullHttpResponse) msg;
-                this.handshaker.finishHandshake(ctx.channel(), response);
-                this.handshakeFuture.setSuccess();
-                logger.info("Go-cqhttp connected!");
-            } catch (WebSocketHandshakeException e) {
-                logger.error("Go-cqhttp failed to connect, Token authentication failed!");
-                Runtime.getRuntime().exit(0);
+            //握手协议返回，设置结束握手
+            if (!this.handshaker.isHandshakeComplete()) {
+                try {
+                    FullHttpResponse response = (FullHttpResponse) msg;
+                    this.handshaker.finishHandshake(ctx.channel(), response);
+                    this.handshakeFuture.setSuccess();
+                    logger.info("Go-cqhttp connected!");
+                } catch (WebSocketHandshakeException e) {
+                    logger.error("Go-cqhttp failed to connect, Token authentication failed!");
+                    Runtime.getRuntime().exit(0);
+                }
+                return;
             }
-            return;
-        }
 
-        //处理文本请求
-        if (msg instanceof TextWebSocketFrame) {
+            //处理文本请求
+            if (msg instanceof TextWebSocketFrame ) {
 
-            TextWebSocketFrame textFrame = (TextWebSocketFrame) msg;
-                //BotApi.LOGGER.info(textFrame.text());
-            MessageHandlerService.receiveMessage(textFrame.text());
+                TextWebSocketFrame textFrame = (TextWebSocketFrame) msg;
+                MessageHandlerService.receiveMessage(textFrame.text());
 
-        }
+            }
+
+
     }
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {

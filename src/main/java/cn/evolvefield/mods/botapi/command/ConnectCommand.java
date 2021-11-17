@@ -37,9 +37,9 @@ public class ConnectCommand {
                 context.getSource().sendSuccess(new StringTextComponent("参数不合法"), true);
                 break;
             }
-            case 2: {
+            case 4: {
                 Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-                Matcher matcher = pattern.matcher(args[1]);
+                Matcher matcher = pattern.matcher(args[3]);
                 if(matcher.find()) {
                     BotApi.config.getCommon().setSEND_ENABLED(true);
                     BotApi.config.getCommon().setSendHOST(matcher.group(1));
@@ -51,7 +51,7 @@ public class ConnectCommand {
                 }
                 break;
             }
-            case 1: {
+            case 3: {
                 context.getSource().sendSuccess(new StringTextComponent("尝试建立http连接"), true);
                 break;
             }
@@ -67,14 +67,14 @@ public class ConnectCommand {
                 context.getSource().sendSuccess(new StringTextComponent("参数不合法"), true);
                 break;
             }
-            case 3: {
+            case 5: {
                 Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-                Matcher matcher = pattern.matcher(args[1]);
+                Matcher matcher = pattern.matcher(args[3]);
                 if (matcher.find()) {
                     BotApi.config.getCommon().setRECEIVE_ENABLED(true);
                     BotApi.config.getCommon().setWsHOST(matcher.group(1));
                     BotApi.config.getCommon().setWsPORT(Integer.parseInt(matcher.group(2)));
-                    BotApi.config.getCommon().setKEY(args[2]);
+                    BotApi.config.getCommon().setKEY(args[4]);
                     ConfigManger.saveBotConfig(BotApi.config);
                     context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立WebSocket连接"), true);
                     ClientThreadService.runWebSocketClient();
@@ -83,9 +83,9 @@ public class ConnectCommand {
                 }
                 break;
             }
-            case 2: {
+            case 4: {
                 Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-                Matcher matcher = pattern.matcher(args[1]);
+                Matcher matcher = pattern.matcher(args[3]);
                 if(matcher.find()) {
                     BotApi.config.getCommon().setRECEIVE_ENABLED(true);
                     BotApi.config.getCommon().setWsHOST(matcher.group(1));
@@ -98,7 +98,7 @@ public class ConnectCommand {
                 }
                 break;
             }
-            case 1: {
+            case 3: {
                 context.getSource().sendSuccess(new StringTextComponent("尝试建立WebSocket连接"), true);
                 ClientThreadService.runWebSocketClient();
                 break;
@@ -109,94 +109,4 @@ public class ConnectCommand {
         return 0;
     }
 
-
-
-//    public static int execute(CommandContext<CommandSource> context) throws CommandException {
-//        String[] args = context.getInput().split("\\s+");
-//        switch (args[0]){
-//            default:{
-//                context.getSource().sendSuccess(new StringTextComponent("参数不合法"), true);
-//                break;
-//            }
-//            case "send":
-//            {
-//                switch(args.length) {
-//                    default: {
-//                        context.getSource().sendSuccess(new StringTextComponent("参数不合法"), true);
-//                        break;
-//                    }
-//                    case 2: {
-//                        Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-//                        Matcher matcher = pattern.matcher(args[1]);
-//                        if(matcher.find()) {
-//                            BotApi.config.getCommon().setSEND_ENABLED(true);
-//                            BotApi.config.getCommon().setSendHOST(matcher.group(1));
-//                            BotApi.config.getCommon().setSendPORT(Integer.parseInt(matcher.group(2)));
-//                            ConfigManger.saveBotConfig(BotApi.config);
-//                            context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立连接"), true);
-//                            ClientThreadService.runWebSocketClient();
-//                        } else {
-//                            context.getSource().sendSuccess(new StringTextComponent("格式错误"), true);
-//                        }
-//                        break;
-//                    }
-//                    case 1: {
-//                        context.getSource().sendSuccess(new StringTextComponent("尝试建立连接"), true);
-//                        ClientThreadService.runWebSocketClient();
-//                        break;
-//                    }
-//                }
-//                break;
-//            }
-//            case "receive":
-//            {
-//                switch(args.length) {
-//                    default: {
-//                        context.getSource().sendSuccess(new StringTextComponent("参数不合法"), true);
-//                        break;
-//                    }
-//                    case 3: {
-//                        Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-//                        Matcher matcher = pattern.matcher(args[1]);
-//                        if (matcher.find()) {
-//                            BotApi.config.getCommon().setRECEIVE_ENABLED(true);
-//                            BotApi.config.getCommon().setWsHOST(matcher.group(1));
-//                            BotApi.config.getCommon().setWsPORT(Integer.parseInt(matcher.group(2)));
-//                            BotApi.config.getCommon().setKEY(args[2]);
-//                            ConfigManger.saveBotConfig(BotApi.config);
-//                            context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立连接"), true);
-//                            ClientThreadService.runWebSocketClient();
-//                        } else {
-//                            context.getSource().sendSuccess(new StringTextComponent("格式错误"), true);
-//                        }
-//                        break;
-//                    }
-//                    case 2: {
-//                        Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-//                        Matcher matcher = pattern.matcher(args[1]);
-//                        if(matcher.find()) {
-//                            BotApi.config.getCommon().setRECEIVE_ENABLED(true);
-//                            BotApi.config.getCommon().setWsHOST(matcher.group(1));
-//                            BotApi.config.getCommon().setWsPORT(Integer.parseInt(matcher.group(2)));
-//                            ConfigManger.saveBotConfig(BotApi.config);
-//                            context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立连接"), true);
-//                            ClientThreadService.runWebSocketClient();
-//                        } else {
-//                            context.getSource().sendSuccess(new StringTextComponent("格式错误"), true);
-//                        }
-//                        break;
-//                    }
-//                    case 1: {
-//                        context.getSource().sendSuccess(new StringTextComponent("尝试建立连接"), true);
-//                        ClientThreadService.runWebSocketClient();
-//                        break;
-//                    }
-//                }
-//                break;
-//            }
-//        }
-//        BotApi.config.getCommon().setENABLED(true);
-//        ConfigManger.saveBotConfig(BotApi.config);
-//        return 0;
-//    }
 }

@@ -53,10 +53,10 @@ public class WebSocketClient extends Thread{
             bootstrap.channel(NioSocketChannel.class);
             bootstrap.handler(new WebSocketChannelInitializer());
 
-            logger.info(String.format("尝试连接webSocket服务器: %s", wsURI));
+            logger.info(String.format("尝试连接WebSocket服务器: %s", wsURI));
             ChannelFuture cf = bootstrap.connect(wsURI.getHost(), wsURI.getPort()).sync();
             cf.addListener((GenericFutureListener<ChannelFuture>) channelFuture -> {
-                logger.info(String.format("连接webSocket服务器: %s isSuccess=%s", wsURI, channelFuture.isSuccess()));
+                logger.info(String.format("连接WebSocket服务器: %s isSuccess=%s", wsURI, channelFuture.isSuccess()));
                 if(channelFuture.isSuccess()){
                     //进行握手
                     Channel channel = channelFuture.channel();
@@ -71,7 +71,7 @@ public class WebSocketClient extends Thread{
             });
             cf.channel().closeFuture().sync();
         } catch (InterruptedException e){
-            logger.info("webSocketClient线程中断");
+            logger.info("WebSocketClient线程中断");
         }
         finally {
             client.shutdownGracefully();

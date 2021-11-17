@@ -2,6 +2,7 @@ package cn.evolvefield.mods.botapi;
 
 import cn.evolvefield.mods.botapi.config.BotConfig;
 import cn.evolvefield.mods.botapi.config.ConfigManger;
+import cn.evolvefield.mods.botapi.service.ClientThreadService;
 import com.google.gson.Gson;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -41,6 +43,9 @@ public class BotApi {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStopping);
+
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -57,6 +62,20 @@ public class BotApi {
     private void processIMC(final InterModProcessEvent event) {
 
     }
+
+    private void onServerStarting(FMLServerStartingEvent event){
+        if (BotApi.config.getCommon().isENABLED()) {
+            ClientThreadService.runWebSocketClient();
+        }
+        //加载配置
+        ConfigManger.initBotConfig();
+    }
+
+    private void onServerStopping(FMLServerStoppingEvent event) {
+        ConfigManger.saveBotConfig(config);
+        ClientThreadService.stopWebSocketClient();
+    }
+
 
     @SubscribeEvent
     public void init(FMLServerAboutToStartEvent event){
