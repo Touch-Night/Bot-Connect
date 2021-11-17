@@ -10,11 +10,13 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
 
+import static net.minecraft.command.Commands.literal;
+
 public class GroupIDCommand  {
 
 
     public static ArgumentBuilder<CommandSource, ?> register() {
-        return Commands.literal("setID")
+        return literal("setID")
                 .then(Commands.argument("QQGroupID", IntegerArgumentType.integer())
                         .executes(GroupIDCommand::execute));
     }

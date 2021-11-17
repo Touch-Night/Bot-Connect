@@ -29,7 +29,9 @@ public class Invoke {
             String outPut = String.format("主世界 TPS: %.2f", overTPS)
                     +"\n" + String.format("下界 TPS: %.2f", netherTPS)
                     +"\n" + String.format("末地 TPS: %.2f", endTPS);
-            //BotApi.LOGGER.info(outPut);
+            if(BotApi.config.getCommon().isDebuggable()){
+                BotApi.LOGGER.info("处理命令tps:" + outPut);
+            }
             SendMessage.Group(BotApi.config.getCommon().getGroupId(), outPut);
         }
 
@@ -46,7 +48,9 @@ public class Invoke {
                         );
                 result += "\n" + "玩家列表: " + userList.getString();
             }
-            //BotApi.LOGGER.info(result);
+            if(BotApi.config.getCommon().isDebuggable()){
+                BotApi.LOGGER.info("处理命令list:" + result);
+            }
             SendMessage.Group(BotApi.config.getCommon().getGroupId(), result);
         }
 

@@ -37,6 +37,9 @@ public class BotConfig implements IConfig{
         private String sendHOST = "127.0.0.1";
         @SerializedName("sendPORT")
         private int sendPORT = 5700;
+        @SerializedName("debuggable")
+        private boolean debuggable = false;
+
         @SerializedName("RECEIVE_ENABLED")
         private boolean RECEIVE_ENABLED = true;
         @SerializedName("R_COMMAND_ENABLED")
@@ -111,6 +114,15 @@ public class BotConfig implements IConfig{
         public void setSendPORT(int sendPORT) {
             this.sendPORT = sendPORT;
         }
+
+        public boolean isDebuggable() {
+            return debuggable;
+        }
+
+        public void setDebuggable(boolean debuggable) {
+            this.debuggable = debuggable;
+        }
+
 
         public boolean isRECEIVE_ENABLED() {
             return RECEIVE_ENABLED;

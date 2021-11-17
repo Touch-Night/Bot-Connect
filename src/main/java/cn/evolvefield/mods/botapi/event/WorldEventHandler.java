@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.botapi.event;
 
 import cn.evolvefield.mods.botapi.BotApi;
+import cn.evolvefield.mods.botapi.config.ConfigManger;
 import cn.evolvefield.mods.botapi.service.ClientThreadService;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +17,8 @@ public class WorldEventHandler {
         if (BotApi.config.getCommon().isENABLED()) {
             ClientThreadService.runWebSocketClient();
         }
+        //加载配置
+        ConfigManger.initBotConfig();
     }
 
     @SubscribeEvent
@@ -23,10 +26,5 @@ public class WorldEventHandler {
         ClientThreadService.stopWebSocketClient();
     }
 
-//    @SubscribeEvent
-//    public static void onConfigChanged(ModConfig.ModConfigEvent event) {
-//        if (event.getModID().equals(BotApi.MODID)) {
-//            ConfigManager.sync(BotApi.MODID, Config.Type.INSTANCE);
-//        }
-//    }
+
 }

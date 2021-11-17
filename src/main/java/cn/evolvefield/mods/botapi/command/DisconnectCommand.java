@@ -18,9 +18,9 @@ public class DisconnectCommand {
     public static int execute(CommandContext<CommandSource> context) throws CommandException {
         boolean isSuccess = ClientThreadService.stopWebSocketClient();
         if (isSuccess) {
-            context.getSource().sendSuccess(new StringTextComponent("已断开连接"), true);
+            context.getSource().sendSuccess(new StringTextComponent("WebSocket已断开连接"), true);
         } else {
-            context.getSource().sendSuccess(new StringTextComponent("目前未连接"), true);
+            context.getSource().sendSuccess(new StringTextComponent("WebSocket目前未连接"), true);
         }
         BotApi.config.getCommon().setENABLED(false);
         ConfigManger.saveBotConfig(BotApi.config);
