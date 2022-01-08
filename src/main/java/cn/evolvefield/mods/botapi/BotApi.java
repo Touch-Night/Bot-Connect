@@ -63,12 +63,13 @@ public class BotApi {
     }
 
     private void onServerStarting(FMLServerStartingEvent event){
+        //加载配置
+        ConfigManger.initBotConfig();
         //启动自启
         if (BotApi.config.getCommon().isEnable()) {
             ClientThreadService.runWebSocketClient();
         }
-        //加载配置
-        ConfigManger.initBotConfig();
+
     }
 
     private void onServerStopping(FMLServerStoppingEvent event) {
