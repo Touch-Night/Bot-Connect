@@ -2,7 +2,7 @@ package cn.evolvefield.mods.botapi.event;
 
 
 import cn.evolvefield.mods.botapi.BotApi;
-import cn.evolvefield.mods.botapi.message.SendMessage;
+import cn.evolvefield.mods.botapi.api.SendMessage;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;

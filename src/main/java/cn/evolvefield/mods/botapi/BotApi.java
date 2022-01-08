@@ -33,7 +33,6 @@ public class BotApi {
     public static final String MODID = "botapi";
     public static final Logger LOGGER = LogManager.getLogger();
     public static MinecraftServer SERVER = ServerLifecycleHooks.getCurrentServer();
-    private static Gson GSON = new Gson();
     public static Path CONFIG_FOLDER ;
     public static BotConfig config ;
 
@@ -64,7 +63,8 @@ public class BotApi {
     }
 
     private void onServerStarting(FMLServerStartingEvent event){
-        if (BotApi.config.getCommon().isENABLED()) {
+        //启动自启
+        if (BotApi.config.getCommon().isEnable()) {
             ClientThreadService.runWebSocketClient();
         }
         //加载配置

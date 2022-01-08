@@ -20,46 +20,13 @@ import static net.minecraft.command.Commands.literal;
 public class ConnectCommand {
     public static ArgumentBuilder<CommandSource, ?> register() {
         return literal("connect")
-                .then(literal("send")
-                        .then(Commands.argument("<address:port>", StringArgumentType.greedyString())
-                                .executes(ConnectCommand::sendExecute)))
-                .then(literal("receive")
-                        .then(Commands.argument("<address:port>", StringArgumentType.greedyString())
-                                .executes(ConnectCommand::receiveExecute)))
+                .executes(ConnectCommand::receiveExecute)
+                .then(Commands.argument("<address:port>", StringArgumentType.greedyString())
+                                .executes(ConnectCommand::receiveExecute))
                 ;
     }
 
-    public static int sendExecute(CommandContext<CommandSource> context) throws CommandException {
-        String input = context.getArgument("<address:port>", String.class);
-        String[] args = context.getInput().split("\\s+");
-        switch(args.length) {
-            default: {
-                context.getSource().sendSuccess(new StringTextComponent("参数不合法"), true);
-                break;
-            }
-            case 4: {
-                Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-                Matcher matcher = pattern.matcher(args[3]);
-                if(matcher.find()) {
-                    BotApi.config.getCommon().setSEND_ENABLED(true);
-                    BotApi.config.getCommon().setSendHOST(matcher.group(1));
-                    BotApi.config.getCommon().setSendPORT(Integer.parseInt(matcher.group(2)));
-                    ConfigManger.saveBotConfig(BotApi.config);
-                    context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立http连接"), true);
-                } else {
-                    context.getSource().sendSuccess(new StringTextComponent("格式错误"), true);
-                }
-                break;
-            }
-            case 3: {
-                context.getSource().sendSuccess(new StringTextComponent("尝试建立http连接"), true);
-                break;
-            }
-        }
-        BotApi.config.getCommon().setENABLED(true);
-        ConfigManger.saveBotConfig(BotApi.config);
-        return 0;
-    }
+
     public static int receiveExecute(CommandContext<CommandSource> context) throws CommandException {
         String[] args = context.getInput().split("\\s+");
         switch(args.length) {
@@ -67,29 +34,14 @@ public class ConnectCommand {
                 context.getSource().sendSuccess(new StringTextComponent("参数不合法"), true);
                 break;
             }
-            case 5: {
+            case 4: {
                 Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
                 Matcher matcher = pattern.matcher(args[3]);
                 if (matcher.find()) {
                     BotApi.config.getCommon().setRECEIVE_ENABLED(true);
-                    BotApi.config.getCommon().setWsHOST(matcher.group(1));
-                    BotApi.config.getCommon().setWsPORT(Integer.parseInt(matcher.group(2)));
-                    BotApi.config.getCommon().setKEY(args[4]);
-                    ConfigManger.saveBotConfig(BotApi.config);
-                    context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立WebSocket连接"), true);
-                    ClientThreadService.runWebSocketClient();
-                } else {
-                    context.getSource().sendSuccess(new StringTextComponent("格式错误"), true);
-                }
-                break;
-            }
-            case 4: {
-                Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
-                Matcher matcher = pattern.matcher(args[3]);
-                if(matcher.find()) {
-                    BotApi.config.getCommon().setRECEIVE_ENABLED(true);
-                    BotApi.config.getCommon().setWsHOST(matcher.group(1));
-                    BotApi.config.getCommon().setWsPORT(Integer.parseInt(matcher.group(2)));
+                    BotApi.config.getCommon().setWsHost(matcher.group(1));
+                    BotApi.config.getCommon().setWsPort(Integer.parseInt(matcher.group(2)));
+                    BotApi.config.getCommon().setWsKey(args[3]);
                     ConfigManger.saveBotConfig(BotApi.config);
                     context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立WebSocket连接"), true);
                     ClientThreadService.runWebSocketClient();
@@ -99,12 +51,27 @@ public class ConnectCommand {
                 break;
             }
             case 3: {
+                Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+):(\\d+)");
+                Matcher matcher = pattern.matcher(args[2]);
+                if(matcher.find()) {
+                    BotApi.config.getCommon().setRECEIVE_ENABLED(true);
+                    BotApi.config.getCommon().setWsHost(matcher.group(1));
+                    BotApi.config.getCommon().setWsPort(Integer.parseInt(matcher.group(2)));
+                    ConfigManger.saveBotConfig(BotApi.config);
+                    context.getSource().sendSuccess(new StringTextComponent("已保存，正在尝试建立WebSocket连接"), true);
+                    ClientThreadService.runWebSocketClient();
+                } else {
+                    context.getSource().sendSuccess(new StringTextComponent("格式错误"), true);
+                }
+                break;
+            }
+            case 2: {
                 context.getSource().sendSuccess(new StringTextComponent("尝试建立WebSocket连接"), true);
                 ClientThreadService.runWebSocketClient();
                 break;
             }
         }
-        BotApi.config.getCommon().setENABLED(true);
+        BotApi.config.getCommon().setEnable(true);
         ConfigManger.saveBotConfig(BotApi.config);
         return 0;
     }
