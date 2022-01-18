@@ -7,7 +7,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import java.util.List;
 
-import static cn.evolvefield.mods.botapi.network.WebSocket.WebSocketChannelSupervise.sendToAll;
+import static cn.evolvefield.mods.botapi.core.network.WebSocket.WebSocketChannelSupervise.sendToAll;
 
 public class SendMessage {
 
@@ -40,30 +40,10 @@ public class SendMessage {
             sendToAll(new TextWebSocketFrame(data.toString()));
       }
 
-//      public static JSONObject getProfile(long group, long userId) {
-//
-//      }
 
 
       private static final JSONObject errorObject = new JSONObject("{\"retcode\": 1}");
 
-      //获取群成员信息
-//      public static JSONObject getProfile(long group, long userId) {
-//
-//            try {
-//                  String resp = HttpRequest.post("http://" + BotApi.config.getCommon().getSendHOST() + ":" + BotApi.config.getCommon().getSendPORT() +
-//                                  "/get_group_member_info?group_id=" + group + "&user_id=" + userId)
-//                          .trustAllCerts()
-//                          .trustAllHosts()
-//                          .connectTimeout(60000)
-//                          .readTimeout(60000)
-//                          .body();
-//                  return new JSONObject(resp);
-//            } catch (JSONException e) {
-//                  e.printStackTrace();
-//                  return errorObject;
-//            }
-//      }
 
       //获取用户名信息
       public static String getUsernameFromInfo(JSONObject userInfo) {

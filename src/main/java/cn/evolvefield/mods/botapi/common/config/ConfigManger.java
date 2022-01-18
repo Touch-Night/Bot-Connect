@@ -1,5 +1,6 @@
-package cn.evolvefield.mods.botapi.config;
+package cn.evolvefield.mods.botapi.common.config;
 
+import cn.evolvefield.mods.botapi.BotApi;
 import cn.evolvefield.mods.botapi.util.json.JSONFormat;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -15,18 +16,18 @@ import static cn.evolvefield.mods.botapi.BotApi.CONFIG_FOLDER;
 public class ConfigManger {
     private static final Gson GSON = new Gson();
 
-    public static void initBotConfig() {
+    public static BotConfig initBotConfig() {
         BotConfig config = new BotConfig();
 
-        if (!CONFIG_FOLDER.toFile().isDirectory()) {
+        if (!BotApi.CONFIG_FOLDER.toFile().isDirectory()) {
             try {
-                Files.createDirectories(CONFIG_FOLDER);
+                Files.createDirectories(BotApi.CONFIG_FOLDER);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        Path configPath = CONFIG_FOLDER.resolve(config.getConfigName() + ".json");
+        Path configPath = BotApi.CONFIG_FOLDER.resolve(config.getConfigName() + ".json");
         if (configPath.toFile().isFile()) {
             try {
                 config = GSON.fromJson(FileUtils.readFileToString(configPath.toFile(), StandardCharsets.UTF_8),
@@ -42,6 +43,7 @@ public class ConfigManger {
             }
         }
 
+        return config;
     }
 
     public static void saveBotConfig(BotConfig config) {

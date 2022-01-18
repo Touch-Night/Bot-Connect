@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.botapi.event;
+package cn.evolvefield.mods.botapi.init.events;
 
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
