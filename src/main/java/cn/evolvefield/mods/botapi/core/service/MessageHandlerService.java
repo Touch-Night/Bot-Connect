@@ -15,8 +15,6 @@ public class MessageHandlerService {
      */
     public static void sendMessage(ServerChatEvent event) {
 
-        SendMessage.Group(BotApi.config.getCommon().getGroupId(),String.format("[MC]<%s> %s", event.getPlayer().getDisplayName().getString(), event.getMessage()));
-        //sendToAll(new TextWebSocketFrame("/send_group_msg?group_id=" + ModConfig.GROUP_ID.get() + "&message=" + event.getMessage()));
     }
 
     /**
@@ -66,10 +64,14 @@ public class MessageHandlerService {
                         }
                         break;
                     case "notice":
-                        if (noticeType.equals("group_increase")) {
-                            SendMessage.Group(BotApi.config.getCommon().getGroupId(), BotApi.config.getCommon().getWelcomeNotice());
-                        } else if (noticeType.equals("group_decrease")) {
-                            SendMessage.Group(BotApi.config.getCommon().getGroupId(), BotApi.config.getCommon().getLeaveNotice());
+                        if(BotApi.config.getCommon().isS_WELCOME_ENABLE()
+                                && BotApi.config.getCommon().isSEND_ENABLED()
+                                && groupId == BotApi.config.getCommon().getGroupId()){
+                            if (noticeType.equals("group_increase")) {
+                                SendMessage.Group(BotApi.config.getCommon().getGroupId(), BotApi.config.getCommon().getWelcomeNotice());
+                            } else if (noticeType.equals("group_decrease")) {
+                                SendMessage.Group(BotApi.config.getCommon().getGroupId(), BotApi.config.getCommon().getLeaveNotice());
+                            }
                         }
                 }
             }

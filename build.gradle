@@ -17,10 +17,10 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 group = 'cn.evolvefield.mods'
-version = 'forge-1.18.1-1.5.2'
+version = '1.18.1-1.5.4'
 
 java {
-    archivesBaseName = 'Bot-Connect'
+    archivesBaseName = 'Bot-Connect-forge'
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
