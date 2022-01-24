@@ -1,7 +1,7 @@
 {
-  "chat.botapi.type.advancement.task":"%s has made the advancement %s",
-  "chat.botapi.type.advancement.challenge":"%s has completed the challenge %s",
-  "chat.botapi.type.advancement.goal":"%s has reached the goal %s",
+  "chat.botapi.type.advancement.task":"%s 完成了成就 %s",
+  "chat.botapi.type.advancement.challenge":"%s 完成了挑战 %s",
+  "chat.botapi.type.advancement.goal":"%s 实现了目标 %s",
 
 
   "death.attack.anvil":"%1$s被坠落的铁砧压扁了",

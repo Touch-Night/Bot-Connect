@@ -17,9 +17,6 @@ public class MessageHandlerService {
     public static void sendMessage(ServerChatEvent event) {
 
 
-        SendMessage.Group(BotApi.config.getCommon().getGroupId(),String.format("[MC]<%s> %s", event.getUsername(), event.getMessage()));
-
-
     }
 
     /**
