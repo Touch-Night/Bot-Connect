@@ -1,7 +1,8 @@
 package cn.evolvefield.mods.botapi.util;
 
 
-import cn.evolvefield.mods.botapi.util.json.JSONObject;
+import cn.evolvefield.mods.botapi.api.message.SendMessage;
+import net.sf.json.JSONObject;
 
 public class Role {
 
@@ -19,13 +20,13 @@ public class Role {
 
         String role = userInfo.getJSONObject("data").getString("role");
         switch (role) {
-            case "owner": {
+            case "owner" -> {
                 return UserRole.OWNER;
             }
-            case "admin": {
+            case "admin" -> {
                 return UserRole.ADMIN;
             }
-            default: {
+            default -> {
                 return UserRole.USER;
             }
         }

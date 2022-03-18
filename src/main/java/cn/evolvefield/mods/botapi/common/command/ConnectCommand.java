@@ -4,6 +4,7 @@ package cn.evolvefield.mods.botapi.common.command;
 import cn.evolvefield.mods.botapi.BotApi;
 import cn.evolvefield.mods.botapi.common.config.ConfigManger;
 import cn.evolvefield.mods.botapi.core.service.ClientThreadService;
+import cn.evolvefield.mods.botapi.core.service.MySqlService;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -12,6 +13,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +46,15 @@ public class ConnectCommand {
                     ConfigManger.saveBotConfig(BotApi.config);
                     context.getSource().sendSuccess(new TextComponent("已保存，正在尝试建立WebSocket连接"), true);
                     ClientThreadService.runWebSocketClient();
+                    BotApi.connection = MySqlService.Join();
+                    try {
+                        if (BotApi.connection != null && !BotApi.connection.isClosed()) {
+                            BotApi.connection.createStatement().execute("SELECT 1");
+                        }
+                    } catch (SQLException e) {
+                        System.out.println("§7[§a§l*§7] §c未连接上数据库现为你重连");
+                        BotApi.connection = MySqlService.Join();
+                    }
                 } else {
                     context.getSource().sendSuccess(new TextComponent("格式错误"), true);
                 }
@@ -59,6 +70,15 @@ public class ConnectCommand {
                     ConfigManger.saveBotConfig(BotApi.config);
                     context.getSource().sendSuccess(new TextComponent("已保存，正在尝试建立WebSocket连接"), true);
                     ClientThreadService.runWebSocketClient();
+                    BotApi.connection = MySqlService.Join();
+                    try {
+                        if (BotApi.connection != null && !BotApi.connection.isClosed()) {
+                            BotApi.connection.createStatement().execute("SELECT 1");
+                        }
+                    } catch (SQLException e) {
+                        System.out.println("§7[§a§l*§7] §c未连接上数据库现为你重连");
+                        BotApi.connection = MySqlService.Join();
+                    }
                 } else {
                     context.getSource().sendSuccess(new TextComponent("格式错误"), true);
                 }
@@ -67,6 +87,15 @@ public class ConnectCommand {
             case 2: {
                 context.getSource().sendSuccess(new TextComponent("尝试建立WebSocket连接"), true);
                 ClientThreadService.runWebSocketClient();
+                BotApi.connection = MySqlService.Join();
+                try {
+                    if (BotApi.connection != null && !BotApi.connection.isClosed()) {
+                        BotApi.connection.createStatement().execute("SELECT 1");
+                    }
+                } catch (SQLException e) {
+                    System.out.println("§7[§a§l*§7] §c未连接上数据库现为你重连");
+                    BotApi.connection = MySqlService.Join();
+                }
                 break;
             }
         }

@@ -2,8 +2,9 @@ package cn.evolvefield.mods.botapi.api.message;
 
 
 import cn.evolvefield.mods.botapi.BotApi;
-import cn.evolvefield.mods.botapi.util.json.JSONObject;
+import cn.evolvefield.mods.botapi.util.MsgUtil;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -12,7 +13,9 @@ import static cn.evolvefield.mods.botapi.core.network.WebSocket.WebSocketChannel
 
 public class SendMessage {
 
-      public static void Private(long user_id, String message){
+
+
+      public static void SendPrivateMsg(String user_id, String message){
             if(BotApi.config.getCommon().isEnable()) {
 
                   JSONObject data = new JSONObject();
@@ -30,7 +33,7 @@ public class SendMessage {
       }
 
 
-      public static void Group(long group_id, String message) {
+      public static void SendGroupMsg(String group_id, String message) {
             if(BotApi.config.getCommon().isEnable()){
                   JSONObject data = new JSONObject();
                   JSONObject params = new JSONObject();
@@ -47,9 +50,26 @@ public class SendMessage {
 
       }
 
+      public static void SendGroupMsg(String group_id, Object message) {
+            if(BotApi.config.getCommon().isEnable()){
+                  JSONObject data = new JSONObject();
+                  JSONObject params = new JSONObject();
+                  data.put("action", "send_group_msg");
+
+                  params.put("group_id", group_id);
+                  params.put("message", MsgUtil.setListMessage((List<String>)message));
+                  data.put("params", params);
+                  if(BotApi.config.getCommon().isDebuggable()){
+                        BotApi.LOGGER.info("向群" + group_id + "发送消息" + message);
+                  }
+                  sendToAll(new TextWebSocketFrame(data.toString()));
+            }
+
+      }
 
 
-      private static final JSONObject errorObject = new JSONObject("{\"retcode\": 1}");
+
+      private static final JSONObject errorObject = new JSONObject().getJSONObject("{\"retcode\": 1}");
 
 
       //获取用户名信息
@@ -58,7 +78,7 @@ public class SendMessage {
                   return "";
             }
 
-            if (userInfo.getNumber("retcode").intValue() != 0) {
+            if (userInfo.getInt("retcode") != 0) {
                   return "";
             }
 

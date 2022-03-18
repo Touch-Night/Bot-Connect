@@ -2,6 +2,7 @@ package cn.evolvefield.mods.botapi.common.command;
 
 
 import cn.evolvefield.mods.botapi.BotApi;
+import cn.evolvefield.mods.botapi.api.data.BindApi;
 import cn.evolvefield.mods.botapi.api.message.SendMessage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -9,14 +10,16 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Invoke {
 
 
-    public static void invokeCommand(String command) {
-        String commandBody = command.substring(1);
+    public static void invokeCommand(String message, String userid) {
+        String commandBody = message.substring(1);
+        String cmd = BotApi.config.getCommon().getBindCommand();
 
         if("tps".equals(commandBody)) {
             double overTickTime = mean(BotApi.SERVER.getTickTime(Level.OVERWORLD)) * 1.0E-6D;
@@ -32,7 +35,7 @@ public class Invoke {
             if(BotApi.config.getCommon().isDebuggable()){
                 BotApi.LOGGER.info("处理命令tps:" + outPut);
             }
-            SendMessage.Group(BotApi.config.getCommon().getGroupId(), outPut);
+            SendMessage.SendGroupMsg(BotApi.config.getCommon().getGroupId(), outPut);
         }
 
         else if("list".equals(commandBody)) {
@@ -51,7 +54,31 @@ public class Invoke {
             if(BotApi.config.getCommon().isDebuggable()){
                 BotApi.LOGGER.info("处理命令list:" + result);
             }
-            SendMessage.Group(BotApi.config.getCommon().getGroupId(), result);
+            SendMessage.SendGroupMsg(BotApi.config.getCommon().getGroupId(), result);
+        }
+        else if(BotApi.config.getCommon().getBindCommand().equals(commandBody)){
+
+                String BindPlay = message.substring(cmd.length());
+                List<String> msg = new ArrayList<>();
+
+                if(BotApi.SERVER.getPlayerList().getPlayerByName(BindPlay) == null || !BotApi.SERVER.getPlayerList().getPlayerByName(BindPlay).hasDisconnected() || !BotApi.SERVER.getPlayerList().getPlayerByName(BindPlay).getName().getString().equalsIgnoreCase(BindPlay)){
+                    String m = BotApi.config.getCommon().getBindNotOnline();
+                    msg.add(m.replace("%Player%",BindPlay));
+                    SendMessage.SendGroupMsg(BotApi.config.getCommon().getGroupId(),msg);
+                    return;
+                }
+
+                if(BindApi.addBind(userid,BindPlay)){
+                    String m = BotApi.config.getCommon().getBindSuccess();
+                    msg.add(m.replace("%Player%",BindPlay));
+
+                }else {
+                    String m = BotApi.config.getCommon().getBindFail();
+                    msg.add(m.replace("%Player%",BindPlay));
+                }
+
+                SendMessage.SendGroupMsg(BotApi.config.getCommon().getGroupId(),msg);
+
         }
 
     }

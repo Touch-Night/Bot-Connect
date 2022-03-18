@@ -3,6 +3,8 @@ package cn.evolvefield.mods.botapi;
 import cn.evolvefield.mods.botapi.common.config.BotConfig;
 import cn.evolvefield.mods.botapi.common.config.ConfigManger;
 import cn.evolvefield.mods.botapi.core.service.ClientThreadService;
+import cn.evolvefield.mods.botapi.core.service.MySqlService;
+import cn.evolvefield.mods.botapi.util.FileUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
@@ -22,6 +24,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("botapi")
@@ -32,6 +36,7 @@ public class BotApi {
     public static MinecraftServer SERVER = ServerLifecycleHooks.getCurrentServer();
     public static Path CONFIG_FOLDER ;
     public static BotConfig config ;
+    public static Connection connection;
 
     public BotApi() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -45,7 +50,19 @@ public class BotApi {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        CONFIG_FOLDER = FMLPaths.CONFIGDIR.get();
+        CONFIG_FOLDER = FMLPaths.CONFIGDIR.get().resolve("botapi");
+        FileUtil.checkFolder(CONFIG_FOLDER);
+        System.out.println("▌ §a开始连接数据库 §6┈━═☆");
+        connection = MySqlService.Join();
+        try {
+            if (connection != null && !connection.isClosed()) {
+                //System.out.println("§7[§a§l*§7] §a数据库检测");
+                connection.createStatement().execute("SELECT 1");
+            }
+        } catch (SQLException e) {
+            System.out.println("§7[§a§l*§7] §c未连接上数据库现为你重连");
+            connection = MySqlService.Join();
+        }
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
