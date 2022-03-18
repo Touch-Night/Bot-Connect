@@ -2,7 +2,6 @@ package cn.evolvefield.mods.botapi.api.data;
 
 import cn.evolvefield.mods.botapi.BotApi;
 
-import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

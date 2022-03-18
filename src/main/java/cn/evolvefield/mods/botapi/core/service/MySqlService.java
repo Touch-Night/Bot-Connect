@@ -1,8 +1,6 @@
 package cn.evolvefield.mods.botapi.core.service;
 
 import cn.evolvefield.mods.botapi.BotApi;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

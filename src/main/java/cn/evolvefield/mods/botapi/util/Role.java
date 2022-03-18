@@ -1,7 +1,6 @@
 package cn.evolvefield.mods.botapi.util;
 
 
-import cn.evolvefield.mods.botapi.api.message.SendMessage;
 import net.sf.json.JSONObject;
 
 public class Role {
