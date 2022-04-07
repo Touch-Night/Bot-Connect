@@ -16,7 +16,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 group = 'cn.evolvefield.mods'
-version = '1.16.5-1.5.4'
+version = '1.16.5-1.7.0'
 
 java {
     archivesBaseName = 'Bot-Connect-forge'
@@ -90,6 +90,7 @@ dependencies {
 
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
+    finalizedBy('reobfJar')
     manifest {
         attributes([
                 "Specification-Title"     : "botapi",
@@ -103,4 +104,3 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar')

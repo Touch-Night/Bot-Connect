@@ -24,6 +24,10 @@ public class CommandEventHandler {
                         .then(StatusCommand.register())
                         .then(GroupIDCommand.register())
                         .then(DebugCommand.register())
+                        .then(HelpCommand.register())
+                        .then(BotIDCommand.register())
+                        .then(VerifyKeyCommand.register())
+                        .then(FrameCommand.register())
         );
     }
 }

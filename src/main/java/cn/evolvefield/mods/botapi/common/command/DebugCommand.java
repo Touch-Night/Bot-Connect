@@ -5,10 +5,11 @@ import cn.evolvefield.mods.botapi.common.config.ConfigManger;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
+
+import static net.minecraft.command.Commands.literal;
 
 /**
  * @author cnlimiter
@@ -16,11 +17,12 @@ import net.minecraft.util.text.StringTextComponent;
  */
 public class DebugCommand {
     public static ArgumentBuilder<CommandSource, ?> register() {
-        return Commands.literal("debug")
+        return literal("debug")
                 .then(Commands.argument("enabled", BoolArgumentType.bool())
-                    .executes(DebugCommand::execute));
+                        .executes(DebugCommand::execute));
     }
-    public static int execute(CommandContext<CommandSource> context) throws CommandException {
+
+    public static int execute(CommandContext<CommandSource> context) {
         boolean isEnabled = context.getArgument("enabled", Boolean.class);
         BotApi.config.getCommon().setDebuggable(isEnabled);
         ConfigManger.saveBotConfig(BotApi.config);
