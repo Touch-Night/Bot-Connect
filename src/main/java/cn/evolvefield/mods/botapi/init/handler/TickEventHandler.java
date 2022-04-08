@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.botapi.init.events;
+package cn.evolvefield.mods.botapi.init.handler;
 
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class TickEventHandler {
         String toSend = toSendQueue.poll();
         if (!event.world.isClientSide && toSend != null) {
             StringTextComponent textComponents = new StringTextComponent(toSend);
-            event.world.getServer().getPlayerList().broadcastMessage(textComponents, ChatType.CHAT, UUID.randomUUID());
+            Objects.requireNonNull(event.world.getServer()).getPlayerList().broadcastMessage(textComponents, ChatType.CHAT, UUID.randomUUID());
         }
     }
 }

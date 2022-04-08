@@ -2,6 +2,7 @@ package cn.evolvefield.mods.botapi.common.command;
 
 import cn.evolvefield.mods.botapi.BotApi;
 import cn.evolvefield.mods.botapi.common.config.ConfigManger;
+import cn.evolvefield.mods.botapi.core.bot.BotData;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -21,6 +22,7 @@ public class FrameCommand {
     public static int execute(CommandContext<CommandSource> context) throws CommandSyntaxException {
         String frame = context.getArgument("Frame", String.class);
         BotApi.config.getCommon().setFrame(frame);
+        BotData.setBotFrame(frame);
         ConfigManger.saveBotConfig(BotApi.config);
         context.getSource().sendSuccess(
                 new StringTextComponent("已设置机器人框架为:" + TextFormatting.LIGHT_PURPLE + frame), true);

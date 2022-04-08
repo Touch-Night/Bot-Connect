@@ -13,13 +13,13 @@ public class GroupIDCommand {
 
 
     public static ArgumentBuilder<CommandSource, ?> register() {
-        return Commands.literal("setID")
-                .then(Commands.argument("QQGroupID", LongArgumentType.longArg())
+        return Commands.literal("setGroup")
+                .then(Commands.argument("GroupID", LongArgumentType.longArg())
                         .executes(GroupIDCommand::execute));
     }
 
     public static int execute(CommandContext<CommandSource> context) {
-        long id = context.getArgument("QQGroupID", Long.class);
+        long id = context.getArgument("GroupID", Long.class);
         BotApi.config.getCommon().setGroupId(id);
         ConfigManger.saveBotConfig(BotApi.config);
         context.getSource().sendSuccess(
