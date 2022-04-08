@@ -25,7 +25,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'cn.evolvefield.mods'
-version = '1.18.2-1.6.0'
+version = '1.18.2-1.7.1'
 
 java {
     archivesBaseName = 'Bot-Connect-forge'
@@ -90,19 +90,21 @@ configurations {
 
 repositories {
 
+    mavenCentral()
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.0.19'
     //shade 'org.java-websocket:Java-WebSocket:1.5.2'
-    shade 'net.sf.json-lib:json-lib:2.4:jdk15'
+    //shade 'net.sf.json-lib:json-lib:2.4:jdk15'
+    //shade 'org.xerial:sqlite-jdbc:3.36.0.3'
 }
 
 shadowJar {
     configurations = [project.configurations.shade]
     classifier ''
-    relocate 'org.java-websocket','org.botapi.java-websocket'
-    //relocate 'net.sf.json-lib','net.sf.botapi.json-lib'
+    //relocate 'org.java-websocket','org.botapi.java-websocket'
+    //relocate 'org.xerial.sqlite-jdbc','org.xerial.botapi.sqlite-jdbc'
 
     finalizedBy 'reobfShadowJar'
 }
@@ -117,6 +119,7 @@ reobf {
 
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
+    finalizedBy('reobfJar')
     manifest {
         attributes([
                 "Specification-Title"     : "botapi",
@@ -130,4 +133,3 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar')

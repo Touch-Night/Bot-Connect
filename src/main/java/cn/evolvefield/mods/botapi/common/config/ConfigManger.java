@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.botapi.common.config;
 
 import cn.evolvefield.mods.botapi.BotApi;
-import cn.evolvefield.mods.botapi.util.JSONFormat;
+import cn.evolvefield.mods.botapi.util.json.JSONFormat;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 
@@ -35,7 +35,7 @@ public class ConfigManger {
             }
         } else {
             try {
-                FileUtils.write(configPath.toFile(), GSON.toJson(config), StandardCharsets.UTF_8);
+                FileUtils.write(configPath.toFile(), JSONFormat.formatJson(GSON.toJson(config)), StandardCharsets.UTF_8);
             } catch (IOException e) {
                 e.printStackTrace();
             }

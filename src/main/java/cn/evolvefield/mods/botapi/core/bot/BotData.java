@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.botapi.core.bot;
 
 /**
- * Description:
+ * Description:持久层数据
  * Author: cnlimiter
  * Date: 2022/3/18 18:59
  * Version: 1.0
@@ -9,15 +9,19 @@ package cn.evolvefield.mods.botapi.core.bot;
 public class BotData {
     private static String ws;
     private static String BotFrame;
-    private static String QQ;
+    private static long QQId;
     private static String VerifyKey;
     private static String SessionKey;
 
-    public BotData (){
+    public BotData() {
     }
 
     public static String getBotFrame() {
         return BotFrame;
+    }
+
+    public static void setBotFrame(String botFrame) {
+        BotFrame = botFrame;
     }
 
     public static String getSessionKey() {
@@ -28,32 +32,27 @@ public class BotData {
         SessionKey = sessionKey;
     }
 
+    public static long getQQId() {
+        return QQId;
+    }
 
-    public static String getQQ() {
-        return QQ;
+    public static void setQQId(long QQId) {
+        BotData.QQId = QQId;
     }
 
     public static String getVerifyKey() {
         return VerifyKey;
     }
 
+    public static void setVerifyKey(String verifyKey) {
+        VerifyKey = verifyKey;
+    }
+
     public static String getWs() {
         return ws;
     }
 
-    public static void setBotFrame(String botFrame) {
-        BotFrame = botFrame;
-    }
-
     public static void setWs(String ws) {
         BotData.ws = ws;
-    }
-
-    public static void setQQ(String QQ) {
-        BotData.QQ = QQ;
-    }
-
-    public static void setVerifyKey(String verifyKey) {
-        VerifyKey = verifyKey;
     }
 }

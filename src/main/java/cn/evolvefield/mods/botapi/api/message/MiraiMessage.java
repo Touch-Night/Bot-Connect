@@ -35,10 +35,10 @@ public class MiraiMessage {
     private Long targetId;//被引用回复的原消息的接收者者的QQ号（或群号）
     private List<MiraiMessage> origin;//被引用回复的原消息的消息链对象
 
-    public MiraiMessage(){
+    public MiraiMessage() {
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return switch (type) {
             case "Plain" -> text;
             case "Image" -> "{xx:image,url=" + url + ",path=" + path + "}";
@@ -47,8 +47,8 @@ public class MiraiMessage {
         };
     }
 
-    public void deBug(){
-        System.out.println("§7[§a§l*§7] §a消息类型: §e"+type);
+    public void deBug() {
+        System.out.println("§7[§a§l*§7] §a消息类型: §e" + type);
         switch (type) {
             case "Source" -> {
                 System.out.println("§7[§a§l*§7] §a消息ID: §e" + id);
@@ -90,62 +90,53 @@ public class MiraiMessage {
         return origin;
     }
 
+    public void setOrigin(List<MiraiMessage> origin) {
+        this.origin = origin;
+    }
+
     public Long getGroupId() {
         return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     public Long getSenderId() {
         return senderId;
     }
 
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
+    }
+
     public Long getTarget() {
         return target;
+    }
+
+    public void setTarget(Long target) {
+        this.target = target;
     }
 
     public Long getTargetId() {
         return targetId;
     }
 
+    public void setTargetId(Long targetId) {
+        this.targetId = targetId;
+    }
+
     public String getBase64() {
         return base64;
+    }
+
+    public void setBase64(String base64) {
+        this.base64 = base64;
     }
 
     public String getDisplay() {
         return display;
     }
-
-    public String getImageId() {
-        return imageId;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getJson() {
-        return Json;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public int getId() {
-        return id;
-    }
-
 
     /**
      * setter
@@ -155,59 +146,67 @@ public class MiraiMessage {
         this.display = display;
     }
 
-    public void setBase64(String base64) {
-        this.base64 = base64;
+    public String getImageId() {
+        return imageId;
     }
 
     public void setImageId(String imageId) {
         this.imageId = imageId;
     }
 
-    public void setOrigin(List<MiraiMessage> origin) {
-        this.origin = origin;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setJson(String json) {
-        Json = json;
+    public String getPath() {
+        return path;
     }
 
     public void setPath(String path) {
         this.path = path;
     }
 
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
-    }
-
-    public void setTarget(Long target) {
-        this.target = target;
-    }
-
-    public void setTargetId(Long targetId) {
-        this.targetId = targetId;
+    public String getText() {
+        return text;
     }
 
     public void setText(String text) {
         this.text = text;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getJson() {
+        return Json;
+    }
+
+    public void setJson(String json) {
+        Json = json;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setType(String type) {
         this.type = type;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

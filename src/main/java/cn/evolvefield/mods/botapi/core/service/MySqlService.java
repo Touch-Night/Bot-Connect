@@ -16,7 +16,7 @@ import java.sql.Statement;
 public class MySqlService {
     public static Connection Join() {
         //声明Connection对象
-        Connection con;
+        Connection con = null;
 
         //驱动程序名
         String driver = "org.sqlite.JDBC";
@@ -25,7 +25,7 @@ public class MySqlService {
             //加载驱动程序
             Class.forName(driver);
             //1.getConnection()方法，连接MySQL数据库！！
-            con = DriverManager.getConnection("jdbc:sqlite:"+ BotApi.CONFIG_FOLDER.toString() + "/data.db");
+            con = DriverManager.getConnection("jdbc:sqlite:" + BotApi.CONFIG_FOLDER.toFile().toString() + "/data.db");
             if (!con.isClosed())
                 System.out.println("§7[§a§l*§7] §b数据库连接成功！");
             System.out.println("§7[§a§l*§7] §b开始创建表单……");
@@ -35,8 +35,7 @@ public class MySqlService {
                 //要执行的SQL语句,创建一个player_data表单,已有则跳过创建
                 String sql = "CREATE TABLE IF NOT EXISTS bot_player_data("
                         + "Player varchar(20) not null,"
-                        + "QQ varchar(20) not null"
-                        + ")charset=utf8;";
+                        + "QQ bigint not null);";
                 if(0 == statement.executeLargeUpdate(sql)) {
                     System.out.println("§7[§a§l*§7] §b成功创建表单或已存在表单");
                 }else {

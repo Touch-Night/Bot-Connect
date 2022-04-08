@@ -1,5 +1,6 @@
 package cn.evolvefield.mods.botapi.api.events;
 
+
 import net.minecraftforge.eventbus.api.Event;
 
 /**
@@ -10,15 +11,15 @@ import net.minecraftforge.eventbus.api.Event;
  */
 public class RequestEvent extends Event {
     private final String Json;//原始文本
-    private final String self_id;//机器人qq
-    private final String user_id;//请求人QQ
+    private final long self_id;//机器人qq
+    private final long user_id;//请求人QQ
     private final String request_type;//请求类型
     private final String comment;//验证消息
     private final String flag;//请求flag
-    private final String group_id;//请求群号
+    private final long group_id;//请求群号
     private final String sub_type;//事件子类型
 
-    public RequestEvent(String Json,String self_id,String user_id,String request_type,String comment,String flag,String group_id,String sub_type) {
+    public RequestEvent(String Json, long self_id, long user_id, String request_type, String comment, String flag, long group_id, String sub_type) {
         this.Json = Json;
         this.self_id = self_id;
         this.user_id = user_id;
@@ -32,24 +33,31 @@ public class RequestEvent extends Event {
     public String getJson() {
         return this.Json;
     }
-    public String getSelfId() {
+
+    public long getSelfId() {
         return this.self_id;
     }
-    public String getUserId() {
+
+    public long getUserId() {
         return this.user_id;
     }
+
     public String getRequestType() {
         return this.request_type;
     }
+
     public String getComment() {
         return this.comment;
     }
+
     public String getFlag() {
         return this.flag;
     }
-    public String getGroupId() {
+
+    public long getGroupId() {
         return this.group_id;
     }
+
     public String getSubType() {
         return this.sub_type;
     }

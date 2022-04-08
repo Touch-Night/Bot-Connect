@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.botapi.util;
 
 
-import net.sf.json.JSONObject;
+import cn.evolvefield.mods.botapi.util.json.JSONObject;
 
 public class Role {
 
