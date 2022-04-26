@@ -25,7 +25,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'cn.evolvefield.mods'
-version = '1.18.2-1.7.1'
+version = '1.18.2-1.8.2'
 
 java {
     archivesBaseName = 'Bot-Connect-forge'
