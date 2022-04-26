@@ -28,6 +28,9 @@ public class CommandEventHandler {
                         .then(BotIDCommand.register())
                         .then(VerifyKeyCommand.register())
                         .then(FrameCommand.register())
+                        .then(GuildIDCommand.register())
+                        .then(AddChannelIDCommand.register())
+                        .then(RemoveChannelIDCommand.register())
         );
     }
 }
