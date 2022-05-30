@@ -16,7 +16,7 @@ public class AddChannelIDCommand {
 
 
     public static ArgumentBuilder<CommandSourceStack, ?> register() {
-        return literal("setChannelId")
+        return literal("addChannelId")
                 .then(Commands.argument("ChannelID", StringArgumentType.greedyString())
                         .executes(AddChannelIDCommand::execute));
     }

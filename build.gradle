@@ -3,6 +3,7 @@ buildscript {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url "https://jitpack.io" }
+        maven { url = 'https://maven.parchmentmc.org' }
         maven {
             name = 'sonatype'
             url = 'https://oss.sonatype.org/content/groups/public/'
@@ -12,6 +13,7 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath group: 'gradle.plugin.com.github.johnrengelman', name: 'shadow', version: '7.1.2'
+        classpath 'org.parchmentmc:librarian:1.+'
 
     }
 }
@@ -23,6 +25,7 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 group = 'cn.evolvefield.mods'
 version = '1.18.2-1.8.2'
@@ -38,7 +41,7 @@ tasks.withType(JavaCompile) {
 
 minecraft {
 
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'parchment', version: '2022.05.02-1.18.2'
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -94,7 +97,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.19'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.25'
     //shade 'org.java-websocket:Java-WebSocket:1.5.2'
     //shade 'net.sf.json-lib:json-lib:2.4:jdk15'
     //shade 'org.xerial:sqlite-jdbc:3.36.0.3'

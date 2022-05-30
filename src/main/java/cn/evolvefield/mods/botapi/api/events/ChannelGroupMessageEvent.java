@@ -21,7 +21,7 @@ public class ChannelGroupMessageEvent extends Event {
     private String message;//收到消息
     private String sub_type;//消息子类型
 
-    public ChannelGroupMessageEvent(String json, String sub_type, String guild_id, String channel_id, String self_tiny_id, String tiny_id, String nickname, String message_id, String message) {
+    public ChannelGroupMessageEvent(String json, String sub_type, String guild_id, String channel_id, String self_tiny_id, String tiny_id, String nickname, String message) {
         this.json = json;
         this.sub_type = sub_type;
         this.guild_id = guild_id;
@@ -29,7 +29,6 @@ public class ChannelGroupMessageEvent extends Event {
         this.self_tiny_id = self_tiny_id;
         this.tiny_id = tiny_id;
         this.nickname = nickname;
-        this.message_id = message_id;
         this.message = message;
     }
 
@@ -56,10 +55,6 @@ public class ChannelGroupMessageEvent extends Event {
 
     public String getSelf_tiny_id() {
         return self_tiny_id;
-    }
-
-    public String getMessage_id() {
-        return message_id;
     }
 
     public String getMessage() {

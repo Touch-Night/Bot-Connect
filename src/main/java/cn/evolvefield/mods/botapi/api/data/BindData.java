@@ -34,8 +34,7 @@ public class BindData {
             if (!groupData.isJsonNull()) {
                 for (int i = 0; i < groupData.size(); i++) {
                     JsonElement sub = groupData.get(i);
-                    if (sub instanceof JsonObject) {
-                        JsonObject subObj = (JsonObject) sub;
+                    if (sub instanceof JsonObject subObj) {
                         if (subObj.has("QQ") && subObj.has("name"))
                             groupBindMap.put(subObj.get("QQ").getAsLong(), subObj.get("name").getAsString());
                     }
@@ -45,8 +44,7 @@ public class BindData {
             if (!guildData.isJsonNull()) {
                 for (int i = 0; i < guildData.size(); i++) {
                     JsonElement sub = guildData.get(i);
-                    if (sub instanceof JsonObject) {
-                        JsonObject subObj = (JsonObject) sub;
+                    if (sub instanceof JsonObject subObj) {
                         if (subObj.has("tinyId") && subObj.has("name"))
                             guildBindMap.put(subObj.get("tinyId").getAsString(), subObj.get("name").getAsString());
                     }

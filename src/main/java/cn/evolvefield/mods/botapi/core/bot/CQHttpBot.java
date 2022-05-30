@@ -75,7 +75,6 @@ public class CQHttpBot {
             //群聊事件
             if (message_type.equalsIgnoreCase("group")) {
                 this.self_id = json.getLong("self_id");//机器人qq
-                this.message_id = json.getString("message_id");//消息ID、被撤回的消息ID
                 this.raw_message = json.getString("raw_message");//收到消息
                 this.group_id = json.getLong("group_id");//消息群号
                 this.nickname = json.getJSONObject("sender").getString("nickname");//发送人昵称
@@ -84,7 +83,7 @@ public class CQHttpBot {
                 this.sub_type = json.getString("sub_type");//事件子类型
 
 
-                GroupMessageEvent event = new GroupMessageEvent(Json, self_id, message_id, raw_message, group_id, nickname, role, user_id, sub_type);
+                GroupMessageEvent event = new GroupMessageEvent(Json, self_id, raw_message, group_id, nickname, role, user_id, sub_type);
                 MinecraftForge.EVENT_BUS.post(event);
 
             }
@@ -103,9 +102,8 @@ public class CQHttpBot {
                     this.temp_source = 0;
                 }
 
-                this.message_id = json.getString("message_id");//消息id
 
-                PrivateMessageEvent event = new PrivateMessageEvent(Json, self_id, raw_message, nickname, user_id, sub_type, temp_source, message_id);
+                PrivateMessageEvent event = new PrivateMessageEvent(Json, self_id, raw_message, nickname, user_id, sub_type, temp_source);
                 MinecraftForge.EVENT_BUS.post(event);
             }
 
@@ -118,10 +116,9 @@ public class CQHttpBot {
                 this.nickname = json.optJSONObject("sender").optString("nickname");//发送人昵称
                 this.self_tiny_id = json.getString("self_tiny_id");
 
-                this.message_id = json.getString("message_id");
                 this.raw_message = json.getString("message");//收到消息
 
-                ChannelGroupMessageEvent event = new ChannelGroupMessageEvent(Json, sub_type, guild_id, channel_id, self_tiny_id, tiny_id, nickname, message_id, raw_message);
+                ChannelGroupMessageEvent event = new ChannelGroupMessageEvent(Json, sub_type, guild_id, channel_id, self_tiny_id, tiny_id, nickname, raw_message);
                 MinecraftForge.EVENT_BUS.post(event);
             }
 
@@ -167,11 +164,6 @@ public class CQHttpBot {
                     this.duration = json.getString("duration");//被禁言时长
                 } else {
                     this.duration = null;
-                }
-                if (Json.contains("message_id")) {//消息ID、被撤回的消息ID
-                    this.message_id = json.getString("message_id");
-                } else {
-                    this.message_id = null;
                 }
                 if (Json.contains("file")) {//上传文件数据
                     this.file_name = json.getJSONObject("file").getString("name");//上传文件名字
