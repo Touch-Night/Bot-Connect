@@ -55,7 +55,7 @@ public class BotApi implements ModInitializer {
         TickEventHandler.init();
     }
 
-    public MinecraftServer getServer(){
+    public MinecraftServer getServer() {
         return SERVER;
     }
 
