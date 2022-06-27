@@ -5,8 +5,9 @@ import cn.evolvefield.mods.botapi.api.events.GroupMessageEvent;
 import cn.evolvefield.mods.botapi.api.events.PrivateMessageEvent;
 import cn.evolvefield.mods.botapi.api.message.MiraiMessage;
 import cn.evolvefield.mods.botapi.init.callbacks.BotEvents;
-import cn.evolvefield.mods.botapi.util.json.JSONArray;
-import cn.evolvefield.mods.botapi.util.json.JSONObject;
+import cn.evolvefield.mods.botapi.util.JsonsObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +28,17 @@ public class MiraiBot {
     private String group_name;//群名称
     private String nickname;//发送人名称
     private String memberName;//发送人群名片
+    private String permission;//发送人群权限
+
     private long user_id;//发送人qq、撤回消息qq、事件触发qq
 
     private List<MiraiMessage> raw_message;//收到消息
     //消息类型
     private String msgType;//消息类型
 
-    private JSONArray origin;//被引用回复的原消息的消息链对象
+    private JsonArray origin;//被引用回复的原消息的消息链对象
 
-    public MiraiBot(String jsonStr, JSONObject json) {
+    public MiraiBot(String jsonStr, JsonsObject json) {
         this.Json = jsonStr;//消息原本json文本
 
         if (!json.has("data")) {
@@ -43,28 +46,30 @@ public class MiraiBot {
         }
 
         if (Json.contains("session")) {
-            SessionKey = new JSONObject(json.getString("data")).getString("session");
+            SessionKey = new JsonsObject(json.optJSONObject("data")).optString("session");
             BotData.setSessionKey(this.SessionKey);
         }
 
 
-        JSONObject data = new JSONObject(json.getString("data"));
+        JsonsObject data = new JsonsObject(json.optJSONObject("data"));
 
-        if (data.get("type") != null) {
-            this.type = (String) data.get("type");
+        if (data.has("type")) {
+            this.type = data.optString("type");
         } else {
             return;
         }
         //私聊消息
         if (type.equals("FriendMessage")) {
             //聊天消息
-            JSONArray jsonArray = (JSONArray) data.get("messageChain");
+            JsonArray jsonArray = data.optJSONArray("messageChain");
+
+
             raw_message = getMessageList(jsonArray);
 
             //发送人信息
-            JSONObject sender = (JSONObject) data.get("sender");
-            user_id = sender.getLong("id");
-            nickname = sender.getString("nickname");
+            JsonsObject sender = new JsonsObject(data.optJSONObject("sender"));
+            user_id = sender.optLong("id");
+            nickname = sender.optString("nickname");
 
             //触发好友事件
             PrivateMessageEvent event = new PrivateMessageEvent(Json, raw_message, user_id, nickname);
@@ -74,18 +79,18 @@ public class MiraiBot {
         //临时会话
         if (type.equals("TempMessage ")) {
             //聊天消息
-            JSONArray jsonArray = (JSONArray) data.get("messageChain");
+            JsonArray jsonArray = data.optJSONArray("messageChain");
             raw_message = getMessageList(jsonArray);
 
             //发送人信息
-            JSONObject sender = (JSONObject) data.get("sender");
-            user_id = sender.getLong("id");
-            memberName = String.valueOf(sender.get("memberName"));
+            JsonsObject sender = new JsonsObject(data.optJSONObject("sender"));
+            user_id = sender.optLong("id");
+            memberName = sender.optString("memberName");
 
             //群信息
-            JSONObject group = (JSONObject) sender.get("group");
-            group_id = group.getLong("id");
-            group_name = String.valueOf(group.get("name"));
+            JsonsObject group = new JsonsObject(data.optJSONObject("group"));
+            group_id = group.optLong("id");
+            group_name = group.optString("name");
 
             //触发私聊事件
             PrivateMessageEvent event = new PrivateMessageEvent(Json, raw_message, user_id, memberName, group_id, group_name);
@@ -96,21 +101,21 @@ public class MiraiBot {
         //群聊消息
         if (type.equals("GroupMessage")) {
             //聊天消息
-            JSONArray jsonArray = (JSONArray) data.get("messageChain");
+            JsonArray jsonArray = data.optJSONArray("messageChain");
             raw_message = getMessageList(jsonArray);
 
             //发送人信息
-            JSONObject sender = (JSONObject) data.get("sender");
-            user_id = sender.getLong("id");
-            memberName = String.valueOf(sender.get("memberName"));
-
+            JsonsObject sender = new JsonsObject(data.optJSONObject("sender"));
+            user_id = sender.optLong("id");
+            memberName = sender.optString("memberName");
+            permission = sender.optString("permission");
             //群信息
-            JSONObject group = (JSONObject) sender.get("group");
-            group_id = group.getLong("id");
-            group_name = String.valueOf(group.get("name"));
+            JsonsObject group = new JsonsObject(data.optJSONObject("group"));
+            group_id = group.optLong("id");
+            group_name = group.optString("name");
 
             //触发群聊事件
-            GroupMessageEvent event = new GroupMessageEvent(Json, raw_message, user_id, memberName, group_id, group_name);
+            GroupMessageEvent event = new GroupMessageEvent(Json, raw_message, user_id, permission, memberName, group_id, group_name);
             BotEvents.GROUP_MSG_EVENT.invoker().onGroupMsg(event);
 
 
@@ -118,17 +123,17 @@ public class MiraiBot {
     }
 
 
-    public List<MiraiMessage> getMessageList(JSONArray json) {
+    public List<MiraiMessage> getMessageList(JsonArray json) {
         List<MiraiMessage> message = new ArrayList<>();
         for (Object sz : json) {
-            MiraiMessage mm = getMessage(new JSONObject(sz));
+            MiraiMessage mm = getMessage(new JsonsObject((JsonObject) (sz)));
 
-            if (new JSONObject(sz).get("origin") != null) {
-                origin = (JSONArray) new JSONObject(sz).get("origin");
+            if (((JsonObject) sz).has("origin")) {
+                origin = new JsonsObject((JsonObject) (sz)).optJSONArray("origin");
 
                 List<MiraiMessage> originList = new ArrayList<>();
                 for (Object ol : origin) {
-                    originList.add(getMessage(new JSONObject(ol)));
+                    originList.add(getMessage(new JsonsObject((JsonObject) (sz))));
                 }
                 mm.setOrigin(originList);
             }
@@ -146,8 +151,8 @@ public class MiraiBot {
         return message;
     }
 
-    public MiraiMessage getMessage(JSONObject json) {
-        msgType = json.getString("type");
+    public MiraiMessage getMessage(JsonsObject json) {
+        this.msgType = json.optString("type", "");
 
         MiraiMessage mm = new MiraiMessage();
 
@@ -156,31 +161,37 @@ public class MiraiBot {
 
         //消息的数据Source类型永远为chain的第一个元素
         switch (msgType) {
-            case "Source" -> {
-                mm.setTime((int) json.get("time"));
-                mm.setId((int) json.get("id"));
+            case "Source": {
+                mm.setTime(json.optInt("time"));
+                mm.setId(json.optInt("id"));
+                break;
             }
             //普通消息
-            case "Plain" -> mm.setText((String) json.get("text"));
+            case "Plain":
+                mm.setText(json.optString("text"));
+                break;
 
             //图片消息
-            case "Image" -> { //图片消息
-                mm.setImageId((String) json.get("imageId"));
-                mm.setUrl((String) json.get("url"));
-                mm.setPath(String.valueOf(json.get("path")));
-                mm.setBase64("base64");
+            case "Image": { //图片消息
+                mm.setImageId(json.optString("imageId"));
+                mm.setUrl(json.optString("url"));
+                mm.setPath(json.optString("path"));
+                mm.setBase64(json.optString("base64"));
+                break;
             }
             //引用消息
-            case "Quote" -> {
-                mm.setId((int) json.get("id"));
-                mm.setGroupId(json.getLong("groupId"));
-                mm.setSenderId(json.getLong("senderId"));
-                mm.setTargetId(json.getLong("targetId"));
+            case "Quote": {
+                mm.setId(json.optInt("id"));
+                mm.setGroupId(json.optLong("groupId"));
+                mm.setSenderId(json.optLong("senderId"));
+                mm.setTargetId(json.optLong("targetId"));
+                break;
             }
             //艾特消息
-            case "At" -> {
-                mm.setTarget(json.getLong("target"));
-                mm.setDisplay((String) json.get("dispaly"));
+            case "At": {
+                mm.setTarget(json.optLong("target"));
+                mm.setDisplay(json.optString("dispaly"));
+                break;
             }
         }
 

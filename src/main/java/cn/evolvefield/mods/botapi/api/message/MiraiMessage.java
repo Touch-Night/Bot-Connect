@@ -39,29 +39,34 @@ public class MiraiMessage {
     }
 
     public String getMessage() {
-        return switch (type) {
-            case "Plain" -> text;
-            case "Image" -> "{xx:image,url=" + url + ",path=" + path + "}";
-            case "At" -> "{xx:at,qq=" + target + "}";
-            default -> "";
-        };
+        switch (type) {
+            case "Plain":
+                return text;
+            case "Image":
+                return "{xx:image,url=" + url + ",path=" + path + "}";
+            case "At":
+                return "{xx:at,qq=" + target + "}";
+            default:
+                return "";
+        }
     }
 
     public void deBug() {
         System.out.println("§7[§a§l*§7] §a消息类型: §e" + type);
         switch (type) {
-            case "Source" -> {
+            case "Source": {
                 System.out.println("§7[§a§l*§7] §a消息ID: §e" + id);
                 System.out.println("§7[§a§l*§7] §a消息时间截: §e" + time);
             }
-            case "Plain" -> System.out.println("§7[§a§l*§7] §a消息文本: §e" + text);
-            case "Image" -> {
+            case "Plain":
+                System.out.println("§7[§a§l*§7] §a消息文本: §e" + text);
+            case "Image": {
                 System.out.println("§7[§a§l*§7] §a图片的imageId: §e" + imageId);
                 System.out.println("§7[§a§l*§7] §a图片的URL: §e" + url);
                 System.out.println("§7[§a§l*§7] §a图片的路径: §e" + path);
                 System.out.println("§7[§a§l*§7] §aBase64编码: §e" + base64);
             }
-            case "Quote" -> {
+            case "Quote": {
                 System.out.println("§7[§a§l*§7] §a消息ID: §e" + id);
                 System.out.println("§7[§a§l*§7] §a接收群号: §e" + groupId);
                 System.out.println("§7[§a§l*§7] §a发送者QQ: §e" + senderId);
@@ -74,7 +79,7 @@ public class MiraiMessage {
                 System.out.println("§c————————————");
                 return;
             }
-            case "At" -> {
+            case "At": {
                 System.out.println("§7[§a§l*§7] §aAt成员: §e" + target);
                 System.out.println("§7[§a§l*§7] §a显示文字: §e" + display);
             }

@@ -15,8 +15,6 @@
   "icon": "assets/botapi/icon.png",
   "environment": "server",
   "entrypoints": {
-    "client": [
-    ],
     "main": [
       "cn.evolvefield.mods.botapi.BotApi"
     ]
@@ -27,6 +25,6 @@
   "depends": {
     "fabricloader": ">=0.12.10",
     "fabric": "*",
-    "minecraft": "1.19"
+    "minecraft": "1.18.1"
   }
 }
