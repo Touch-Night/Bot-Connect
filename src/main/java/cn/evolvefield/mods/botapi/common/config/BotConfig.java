@@ -203,19 +203,16 @@ public class BotConfig {
         private String whiteListCommand = "white";
         @SerializedName("bind_success")
         private String bindSuccess =
-                "绑定成功 ┈━═☆\n" +
-                        "成功绑定账号: %Player%\n" +
-                        "你他妈绑定成功了呢~\"";
+                        "成功绑定账号: %Player%\n";
         @SerializedName("bindFail")
         private String bindFail =
-                "绑定失败 ┈━═☆\n" +
+                "绑定失败\n" +
                         "你的QQ已经绑定或 %Player% 已被绑定\n" +
-                        "你他妈不能再绑定了呢~";
+                        "你不能再绑定了";
         @SerializedName("bindNotOnline")
         private String bindNotOnline =
-                "玩家不在线 ┈━═☆\n" +
-                        "%Player% 不在线或者不存在哦\n" +
-                        "还他妈不上线搁这玩QQ呢~";
+                "玩家不在线\n" +
+                        "%Player% 不在线或者不存在哦\n";
 
         @SerializedName("qqPrefix")
         private String qqPrefix = "MC";
