@@ -192,11 +192,11 @@ public class BotConfig {
 
     public static class Cmd {
         @SerializedName("welcome_notice")
-        private String welcomeNotice = "欢迎加群~";
+        private String welcomeNotice = "欢迎来到安魂曲服务器的qq群";
         @SerializedName("leave_notice")
-        private String leaveNotice = "有人离开了我们qwq";
+        private String leaveNotice = "有人被酷霸王抓走了qwq";
         @SerializedName("command_start")
-        private String commandStart = "!";
+        private String commandStart = "/";
         @SerializedName("bind_command")
         private String bindCommand = "bind";
         @SerializedName("whitelist_command")
