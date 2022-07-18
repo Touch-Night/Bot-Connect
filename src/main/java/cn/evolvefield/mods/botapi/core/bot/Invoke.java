@@ -191,7 +191,7 @@ public class Invoke {
                 case "on" -> {
                     PlayerList playerList = BotApi.SERVER.getPlayerList();
                     if (playerList.isUsingWhitelist()) {
-                        SendMessage.Group(BotApi.config.getCommon().getGroupId(), "已经打开了白名单！哼~");
+                        SendMessage.Group(BotApi.config.getCommon().getGroupId(), "已经打开了白名单！");
                     } else {
                         playerList.setUsingWhiteList(true);
                         BotApi.SERVER.setEnforceWhitelist(true);
@@ -250,8 +250,8 @@ public class Invoke {
         double overMspt = BotApi.service.averageMspt();
 
 
-        String outPut = String.format("主世界 TPS: %.2f", overTPS)
-                + "\n" + String.format("主世界 MSPT: %.2f", overMspt);
+        String outPut = String.format("主世界每秒游戏刻数: %.2f", overTPS)
+                + "\n" + String.format("主世界每刻需要的毫秒数: %.2f", overMspt);
 
         if (BotApi.config.getCommon().isDebuggable()) {
             BotApi.LOGGER.info("处理命令tps:" + outPut);
@@ -262,7 +262,7 @@ public class Invoke {
     private static String listCmd() {
         List<ServerPlayer> users = BotApi.SERVER.getPlayerList().getPlayers();
 
-        String result = "在线玩家数量: " + users.size();
+        String result = "有" + users.size() + "名玩家在线";
 
         if (users.size() > 0) {
             Component userList = users.stream()
